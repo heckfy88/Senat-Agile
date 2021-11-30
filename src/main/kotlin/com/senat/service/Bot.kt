@@ -25,7 +25,7 @@ class Bot : TelegramLongPollingBot() {
             val chatId = message.chatId
             if (message.hasText()) {
                 if (message.text == "/start")
-                execute(SendMessage(chatId, "Добро пожаловать"))
+                execute(SendMessage(chatId.toString(), "Добро пожаловать"))
             }
         }
     }
