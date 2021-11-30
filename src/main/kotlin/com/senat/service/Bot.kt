@@ -26,6 +26,8 @@ class Bot : TelegramLongPollingBot() {
             if (message.hasText()) {
                 if (message.text == "/start")
                 execute(SendMessage(chatId.toString(), "Добро пожаловать"))
+                if (message.text == "/discussion")
+                    Discussion()
             }
         }
     }
