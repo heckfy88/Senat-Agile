@@ -1,0 +1,13 @@
+package com.senat.service.command
+
+import com.senat.service.service.SendBotMessageService
+import org.telegram.telegrambots.meta.api.objects.Update
+
+class UnknownCommand(private val sendBotMessageService: SendBotMessageService) : Command {
+
+    private val startMessage = "Неизвестная команда"
+
+    override fun execute(update: Update) {
+        sendBotMessageService.sendMessage(update.message.chatId.toString(), startMessage)
+    }
+}
