@@ -6,21 +6,23 @@ import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
 import com.senat.service.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 import org.telegram.telegrambots.meta.api.objects.Update
 
-class IdeaCommand(private val sendBotMessageService: SendBotMessageService) : Command {
+@Component
+class IdeaCommand(private val sendBotMessageService: SendBotMessageService): Command {
 
     @Autowired
-    private lateinit var ideaRepository: IdeaRepository
+    lateinit var ideaRepository: IdeaRepository
 
     @Autowired
-    private lateinit var userRepository: UserRepository
+    lateinit var userRepository: UserRepository
+
 
     override fun execute(update: Update) {
             val message = update.message
             val chatId = message.chatId
-            if (message.hasText()) {
                 val user = UserDto(
                     userId = message.from.id,
                     name = message.from.userName
@@ -32,7 +34,6 @@ class IdeaCommand(private val sendBotMessageService: SendBotMessageService) : Co
                 )
                 ideaRepository.save(idea)
                 sendBotMessageService.sendMessage(chatId.toString(), message.from.id.toString())
-            }
     }
 
 
