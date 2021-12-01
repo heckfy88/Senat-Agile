@@ -1,16 +1,16 @@
 package com.senat.dto
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.ManyToOne
+import javax.persistence.*
 
 @Entity
 data class IdeaDto (
     @Id
-    private val ideaId: Long,
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    val ideaId: Long = 0,
+
     private val message: String,
-    private var votes: Int = 0,
-    @ManyToOne
+    var votes: Int = 0,
+    @OneToOne
     private val sender: UserDto,
     @ManyToOne
     private var responsible: UserDto? = null
