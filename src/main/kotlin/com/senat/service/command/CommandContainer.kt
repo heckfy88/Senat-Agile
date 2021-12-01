@@ -1,5 +1,9 @@
 package com.senat.service.command
 
+import com.senat.service.command.executor.Command
+import com.senat.service.command.executor.ResponsibleCommand
+import com.senat.service.command.executor.StartCommand
+import com.senat.service.command.executor.UnknownCommand
 import com.senat.service.service.SendBotMessageService
 
 class CommandContainer(sendBotMessageService: SendBotMessageService) {

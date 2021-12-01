@@ -1,4 +1,4 @@
-package com.senat.service.command
+package com.senat.service.command.executor
 
 import org.telegram.telegrambots.meta.api.objects.Update
 
