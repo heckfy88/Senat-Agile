@@ -1,4 +1,4 @@
-package com.senat.service.service
+package com.senat.service.service.message
 
 import com.senat.service.Bot
 import org.springframework.beans.factory.annotation.Autowired

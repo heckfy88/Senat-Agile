@@ -1,4 +1,4 @@
-package com.senat.service.service
+package com.senat.service.service.message
 
 interface SendBotMessageService {
     fun sendMessage(chatId: String, message: String)

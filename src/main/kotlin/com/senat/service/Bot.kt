@@ -1,7 +1,7 @@
 package com.senat.service
 
 import com.senat.service.command.CommandContainer
-import com.senat.service.service.SendBotMessageServiceImpl
+import com.senat.service.service.message.SendBotMessageServiceImpl
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot

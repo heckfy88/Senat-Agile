@@ -1,6 +1,6 @@
 package com.senat.service.command.executor
 
-import com.senat.service.service.SendBotMessageService
+import com.senat.service.service.message.SendBotMessageService
 import org.telegram.telegrambots.meta.api.objects.Update
 
 class UnknownCommand(private val sendBotMessageService: SendBotMessageService) : Command {
