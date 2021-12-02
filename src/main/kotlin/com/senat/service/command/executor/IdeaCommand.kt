@@ -36,5 +36,7 @@ class IdeaCommand(private val sendBotMessageService: SendBotMessageService): Com
                 sendBotMessageService.sendMessage(chatId.toString(), message.from.id.toString())
     }
 
+    override fun getCommand(): String = "/idea"
+
 
 }

@@ -10,4 +10,6 @@ class ResponsibleCommand(private val sendBotMessageService: SendBotMessageServic
     override fun execute(update: Update) {
         sendBotMessageService.sendMessage(update.message.chatId.toString(), startMessage)
     }
+
+    override fun getCommand(): String = "/responsible"
 }

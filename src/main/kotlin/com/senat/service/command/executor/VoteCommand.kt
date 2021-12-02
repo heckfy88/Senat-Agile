@@ -20,4 +20,6 @@ class VoteCommand(sendBotMessageService: SendBotMessageService) : Command {
 
 
     }
+
+    override fun getCommand(): String = "/vote"
 }

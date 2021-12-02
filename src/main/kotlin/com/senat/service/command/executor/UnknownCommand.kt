@@ -10,4 +10,6 @@ class UnknownCommand(private val sendBotMessageService: SendBotMessageService) :
     override fun execute(update: Update) {
         sendBotMessageService.sendMessage(update.message.chatId.toString(), startMessage)
     }
+
+    override fun getCommand(): String = ""
 }
