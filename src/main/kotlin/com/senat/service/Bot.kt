@@ -2,18 +2,32 @@ package com.senat.service
 
 import com.senat.service.command.CommandContainer
 import com.senat.service.service.message.SendBotMessageServiceImpl
+import com.senat.service.service.responsibility.ResponsibilityService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Update
 import java.util.*
+import javax.annotation.PostConstruct
 
 @Component
 class Bot : TelegramLongPollingBot() {
 
     private val commandPrefix = "/"
 
-    private val commandContainer = CommandContainer(SendBotMessageServiceImpl(this))
+    @Autowired
+    private lateinit var responsibilityService: ResponsibilityService
+
+    private lateinit var commandContainer: CommandContainer
+
+    @PostConstruct
+    fun init() {
+        commandContainer = CommandContainer(
+            SendBotMessageServiceImpl(this),
+            responsibilityService
+        )
+    }
 
     @Value("\${telegram.botName}")
     private val botName: String = ""
