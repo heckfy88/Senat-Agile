@@ -1,4 +1,4 @@
-package com.senat.service.service.message
+package com.senat.service.message
 
 import org.springframework.stereotype.Service
 

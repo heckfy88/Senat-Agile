@@ -1,7 +1,10 @@
-package com.senat.service.command
+package com.senat.command
 
-import com.senat.service.command.executor.*
-import com.senat.service.service.message.SendBotMessageService
+import com.senat.command.executor.Command
+import com.senat.command.executor.IdeaCommand
+import com.senat.command.executor.StartCommand
+import com.senat.command.executor.UnknownCommand
+import com.senat.service.message.SendBotMessageService
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -9,10 +12,13 @@ import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
 @Service
-class CommandContainer(sendBotMessageService: SendBotMessageService) {
+class CommandContainer {
 
     @Autowired
     lateinit var context: ApplicationContext
+
+    @Autowired
+    lateinit var unknownCommand: UnknownCommand
 
     private val commands: MutableMap<String, Command> = mutableMapOf()
 
@@ -32,8 +38,6 @@ class CommandContainer(sendBotMessageService: SendBotMessageService) {
 //        CommandName.IDEA.commandName to IdeaCommand(sendBotMessageService),
 //        CommandName.VOTE.commandName to VoteCommand(sendBotMessageService)
 //    )
-
-    private val unknownCommand = UnknownCommand(sendBotMessageService)
 
     fun retrieveCommand(commandIdentifier: String): Command {
         return commands[commandIdentifier] ?: unknownCommand

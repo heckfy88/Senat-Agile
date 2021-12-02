@@ -1,4 +1,4 @@
-package com.senat.service.command
+package com.senat.command
 
 enum class CommandName(val commandName: String) {
     START("/start"),

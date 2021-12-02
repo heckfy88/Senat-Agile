@@ -1,8 +1,10 @@
-package com.senat.service.command.executor
+package com.senat.command.executor
 
-import com.senat.service.service.message.SendBotMessageService
+import com.senat.service.message.SendBotMessageService
+import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update
 
+@Component
 class UnknownCommand(private val sendBotMessageService: SendBotMessageService) : Command {
 
     private val startMessage = "Неизвестная команда"

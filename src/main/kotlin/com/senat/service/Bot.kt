@@ -1,7 +1,7 @@
 package com.senat.service
 
-import com.senat.service.command.CommandContainer
-import com.senat.service.service.message.SendBotMessageServiceImpl
+import com.senat.command.CommandContainer
+import com.senat.service.message.SendBotMessageServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

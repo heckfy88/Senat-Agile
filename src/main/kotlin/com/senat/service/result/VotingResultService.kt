@@ -1,4 +1,4 @@
-package com.senat.service.service.result
+package com.senat.service.result
 
 import com.senat.dto.IdeaDto
 import com.senat.repository.IdeaRepository

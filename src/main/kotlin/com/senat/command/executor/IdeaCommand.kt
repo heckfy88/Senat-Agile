@@ -1,10 +1,10 @@
-package com.senat.service.command.executor
+package com.senat.command.executor
 
 import com.senat.dto.IdeaDto
 import com.senat.dto.UserDto
 import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
-import com.senat.service.service.message.SendBotMessageService
+import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
