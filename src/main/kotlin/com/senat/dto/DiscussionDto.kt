@@ -7,11 +7,11 @@ import javax.persistence.OneToMany
 @Entity
 data class DiscussionDto (
     @Id
-    private val discussionId: Long,
-    private val title: String,
+    val discussionId: Long,
+    val title: String,
     @OneToMany
-    private val ideas: MutableList<IdeaDto> = mutableListOf(),
-    private val startTimestamp: String,
-    private val endTimestamp: String
+    val ideas: MutableList<IdeaDto> = mutableListOf(),
+    val startTimestamp: String,
+    val endTimestamp: String
 )
 
