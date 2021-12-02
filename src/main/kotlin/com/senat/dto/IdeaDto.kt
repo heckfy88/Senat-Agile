@@ -16,3 +16,4 @@ data class IdeaDto (
     private var responsible: UserDto? = null
 )
 
+
