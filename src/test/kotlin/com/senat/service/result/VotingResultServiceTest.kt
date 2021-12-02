@@ -5,7 +5,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.senat.dto.IdeaDto
 import com.senat.dto.UserDto
 import com.senat.repository.IdeaRepository
-import com.senat.service.service.result.VotingResultService
+import com.senat.service.result.VotingResultService
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
