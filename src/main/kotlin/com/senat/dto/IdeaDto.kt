@@ -15,3 +15,4 @@ data class IdeaDto (
     @ManyToOne
     private var responsible: UserDto? = null
 )
+
