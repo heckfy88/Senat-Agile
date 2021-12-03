@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DiscussionRepository: CrudRepository<DiscussionDto, Long> {
+    fun findByDate(date: String): DiscussionDto
 }

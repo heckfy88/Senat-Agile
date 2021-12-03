@@ -26,7 +26,7 @@ class IdeaServiceImpl: IdeaService {
         val message = update.message
 
         val user = UserDto(
-            userId = message.from.id,
+            userId = message.from.id.toString(),
             name = message.from.userName
         )
         userRepository.save(user)

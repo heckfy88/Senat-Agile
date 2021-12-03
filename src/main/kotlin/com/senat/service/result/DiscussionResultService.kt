@@ -1,11 +1,15 @@
 package com.senat.service.result
 
 import com.senat.dto.IdeaDto
+import com.senat.repository.DiscussionRepository
 import com.senat.repository.IdeaRepository
 import org.springframework.stereotype.Service
 
 @Service
-class VotingResultService(private val ideaRepository: IdeaRepository) {
+class DiscussionResultService(
+    private val ideaRepository: IdeaRepository,
+    private val discussionRepository: DiscussionRepository
+    ) {
 
     fun collectSingleIdeaVoting(ideaId: Long): String {
         val idea = ideaRepository.findById(ideaId).get()
@@ -24,13 +28,23 @@ class VotingResultService(private val ideaRepository: IdeaRepository) {
         return message.toString()
     }
 
+    fun collectDiscussionResult(date: String): String {
+        val message = StringBuilder()
+        val discussion = discussionRepository.findByDate(date)
+        message
+            .append("${discussion.title}\n")
+            .append("${discussion.date}\n")
+            .append(collectSummaryVoting())
+        return message.toString()
+    }
+
     companion object {
         fun formVotingMessage(idea: IdeaDto): String {
             val ideaMessage = idea.message
             val ideaSender = idea.sender.name
             val ideaVotes = idea.votes
 
-            return "$ideaMessage | $ideaVotes :fire: \nПредложил(а): $ideaSender"
+            return "$ideaMessage ➖ $ideaVotes \uD83D\uDD25 \nПредложил(а): $ideaSender\n"
         }
     }
 }
