@@ -11,7 +11,6 @@ data class DiscussionDto (
     val title: String,
     @OneToMany
     val ideas: MutableList<IdeaDto> = mutableListOf(),
-    val startTimestamp: String,
-    val endTimestamp: String
+    val date: String? = null
 )
 
