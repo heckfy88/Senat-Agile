@@ -24,7 +24,7 @@ class IdeaCommand(private val sendBotMessageService: SendBotMessageService): Com
             val message = update.message
             val chatId = message.chatId
                 val user = UserDto(
-                    userId = message.from.id,
+                    userId = message.from.id.toString(),
                     name = message.from.userName
                 )
                 userRepository.save(user)

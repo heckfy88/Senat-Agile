@@ -15,6 +15,6 @@ class InitService {
         val user = update.message.from
         val userId = user.id
         val userName = user.userName
-        userRepository.save(UserDto(userId, userName))
+        userRepository.save(UserDto(userId.toString(), userName))
     }
 }

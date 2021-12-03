@@ -6,6 +6,6 @@ import javax.persistence.Id
 @Entity
 data class UserDto (
     @Id
-    val userId: Long = 0,
-    val name: String
+    val userId: String? = null,
+    val name: String? = null
 )

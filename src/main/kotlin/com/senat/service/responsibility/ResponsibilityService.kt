@@ -7,6 +7,7 @@ import com.senat.repository.UserRepository
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
 
 @Service
@@ -21,37 +22,43 @@ class ResponsibilityService {
     private lateinit var sendBotMessageService: SendBotMessageService
 
     fun setResponsible(update: Update): IdeaDto? {
-        lateinit var user: UserDto
         lateinit var idea: IdeaDto
         var ideaId: Long = 0
-        var userId: Long = 0
         val chatId = update.message.chatId.toString()
+        val user: UserDto? = getUserMentioned(update.message)
+
         val commandParameters = update.message.text.trim()
             .split("\\s+".toRegex())
         if (commandParameters.size != 3) {
             sendBotMessageService.sendMessage(chatId, "Неверное количество аргументов")
             return null
         }
+
         try {
             ideaId = commandParameters[1].toLong()
-            userId = commandParameters[2].toLong()
-        } catch (e: NumberFormatException) {
-            sendBotMessageService.sendMessage(chatId, "Аргументы должны быть цифрами")
-            return null
-        }
-        try {
-            user = userRepository.findById(userId).get()
-        } catch (e: NoSuchElementException) {
-            sendBotMessageService.sendMessage(chatId, "Пользователь с данным id не существует")
-            return null
-        }
-        try {
             idea = ideaRepository.findById(ideaId).get()
-        } catch (e: NoSuchElementException) {
+        } catch (e: Exception) {
             sendBotMessageService.sendMessage(chatId, "Идея с данным id не существует")
             return null
         }
+
+        if (user == null) {
+            sendBotMessageService.sendMessage(chatId, "Пользователь не найден")
+            return null
+        }
+
         idea.responsible = user
         return ideaRepository.save(idea)
+    }
+
+    fun getUserMentioned(message: Message): UserDto? {
+        for (item in message.entities) {
+            if (item.type == "text_mention") {
+                return UserDto(item.user.id.toString())
+            } else if (item.type == "mention") {
+                return userRepository.findByName(item.text.substring(1))
+            }
+        }
+        return null
     }
 }
