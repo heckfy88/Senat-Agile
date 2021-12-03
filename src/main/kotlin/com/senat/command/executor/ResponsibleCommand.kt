@@ -11,5 +11,5 @@ class ResponsibleCommand(private var responsibilityService: ResponsibilityServic
         responsibilityService.setResponsible(update)
     }
 
-    override fun getCommand(): String = "/responsible"
+    override fun getCommand() = "/responsible"
 }
