@@ -33,7 +33,7 @@ class IdeaCommand(private val sendBotMessageService: SendBotMessageService): Com
                     sender = user
                 )
                 ideaRepository.save(idea)
-                sendBotMessageService.sendMessage(chatId.toString(), message.from.id.toString())
+           
     }
 
     override fun getCommand(): String = "/idea"
