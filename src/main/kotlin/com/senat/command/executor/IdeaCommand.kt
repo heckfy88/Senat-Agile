@@ -5,6 +5,7 @@ import com.senat.dto.UserDto
 import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
 import com.senat.service.message.SendBotMessageService
+import com.senat.service.result.DiscussionResultService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -19,12 +20,15 @@ class IdeaCommand(private val sendBotMessageService: SendBotMessageService): Com
     @Autowired
     lateinit var userRepository: UserRepository
 
+    @Autowired
+    lateinit var discussionResultService: DiscussionResultService
+
 
     override fun execute(update: Update) {
             val message = update.message
             val chatId = message.chatId
                 val user = UserDto(
-                    userId = message.from.id,
+                    userId = message.from.id.toString(),
                     name = message.from.userName
                 )
                 userRepository.save(user)
@@ -33,7 +37,11 @@ class IdeaCommand(private val sendBotMessageService: SendBotMessageService): Com
                     sender = user
                 )
                 ideaRepository.save(idea)
-                sendBotMessageService.sendMessage(chatId.toString(), message.from.id.toString())
+
+                val ideaId = ideaRepository.findByMessage(message.text.substring(5)).ideaId
+
+                val msg = discussionResultService.collectSingleIdeaVoting(ideaId)
+                sendBotMessageService.sendMessage(chatId.toString(), msg)
     }
 
     override fun getCommand(): String = "/idea"

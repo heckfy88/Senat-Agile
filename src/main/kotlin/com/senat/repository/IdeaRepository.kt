@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface IdeaRepository: CrudRepository<IdeaDto, Long> {
     fun findAllByOrderByVotesDesc(): List<IdeaDto>
+
+    fun findByMessage(message: String): IdeaDto
 }

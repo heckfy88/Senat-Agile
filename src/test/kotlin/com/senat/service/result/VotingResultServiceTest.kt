@@ -23,7 +23,7 @@ class VotingResultServiceTest {
     lateinit var ideaRepository: IdeaRepository
 
     @InjectMocks
-    lateinit var votingResultService: VotingResultService
+    lateinit var discussionResultService: DiscussionResultService
 
     @ParameterizedTest
     @ValueSource(
@@ -41,7 +41,7 @@ class VotingResultServiceTest {
             .thenReturn(Optional.of(idea))
 
         val expected = formVotingMessage(idea)
-        val actual = votingResultService.collectSingleIdeaVoting(idea.ideaId)
+        val actual = discussionResultService.collectSingleIdeaVoting(idea.ideaId)
 
         assertEquals(expected, actual)
     }
@@ -52,7 +52,7 @@ class VotingResultServiceTest {
             .thenReturn(ideas)
 
         val expected = formRatingMessage(ideas)
-        val actual = votingResultService.collectSummaryVoting()
+        val actual = discussionResultService.collectSummaryVoting()
 
         assertEquals(expected, actual)
     }
@@ -94,7 +94,7 @@ class VotingResultServiceTest {
             val ideaSender = idea.sender.name
             val ideaVotes = idea.votes
 
-            return "$ideaMessage | $ideaVotes :fire: \nПредложил(а): $ideaSender"
+            return "$ideaMessage ➖ $ideaVotes \uD83D\uDD25 \nПредложил(а): $ideaSender\n"
         }
 
         fun formRatingMessage(ideas: List<IdeaDto>): String {
