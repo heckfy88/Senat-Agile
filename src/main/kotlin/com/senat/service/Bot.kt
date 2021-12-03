@@ -29,7 +29,7 @@ class Bot : TelegramLongPollingBot() {
     override fun onUpdateReceived(update: Update?) {
         if (update!!.hasMessage()) {
             val messageText = update.message.text
-            if (messageText.startsWith(commandPrefix)) {
+            if (messageText != null && messageText.startsWith(commandPrefix)) {
                 val commandIdentifier = messageText
                     .split("\\s+".toRegex())[0]
                     .lowercase(Locale.getDefault())

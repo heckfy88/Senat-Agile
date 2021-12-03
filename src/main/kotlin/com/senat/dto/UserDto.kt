@@ -7,5 +7,5 @@ import javax.persistence.Id
 data class UserDto (
     @Id
     val userId: Long = 0,
-    val name: String
+    val name: String? = null
 )
