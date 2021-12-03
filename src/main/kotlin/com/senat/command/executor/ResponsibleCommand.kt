@@ -1,14 +1,14 @@
 package com.senat.command.executor
 
-import com.senat.service.message.SendBotMessageService
+import com.senat.service.responsibility.ResponsibilityService
+import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update
 
-class ResponsibleCommand(private val sendBotMessageService: SendBotMessageService) : Command {
-
-    private val startMessage = "Строка с ответственным"
+@Component
+class ResponsibleCommand(private var responsibilityService: ResponsibilityService) : Command {
 
     override fun execute(update: Update) {
-        sendBotMessageService.sendMessage(update.message.chatId.toString(), startMessage)
+        responsibilityService.setResponsible(update)
     }
 
     override fun getCommand(): String = "/responsible"
