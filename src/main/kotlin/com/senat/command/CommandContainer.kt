@@ -1,7 +1,6 @@
 package com.senat.command
 
 import com.senat.command.executor.*
-import com.senat.service.message.SendBotMessageService
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -25,18 +24,13 @@ class CommandContainer {
         this.add(context.getBean(IdeaCommand::class.java))
         this.add(context.getBean(ResponsibleCommand::class.java))
         this.add(context.getBean(VoteCommand::class.java))
+        this.add(context.getBean(InitCommand::class.java))
+        this.add(context.getBean(HelpCommand::class.java))
     }
 
     fun add(command: Command) {
         commands[command.getCommand()] = command
     }
-
-//    private val commands: Map<String, Command> = hashMapOf(
-//        CommandName.START.commandName to StartCommand(sendBotMessageService),
-//        CommandName.RESPONSIBLE.commandName to ResponsibleCommand(sendBotMessageService),
-//        CommandName.IDEA.commandName to IdeaCommand(sendBotMessageService),
-//        CommandName.VOTE.commandName to VoteCommand(sendBotMessageService)
-//    )
 
     fun retrieveCommand(commandIdentifier: String): Command {
         return commands[commandIdentifier] ?: unknownCommand
