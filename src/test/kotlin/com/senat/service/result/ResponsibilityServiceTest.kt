@@ -69,7 +69,7 @@ class ResponsibilityServiceTest {
             responsible = null
         )
         val user = UserDto(
-            userId = 1,
+            userId = "1",
             name = "name"
         )
         val expectedIdea = IdeaDto(

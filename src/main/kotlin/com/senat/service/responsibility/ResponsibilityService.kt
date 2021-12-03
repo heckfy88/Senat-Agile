@@ -52,10 +52,9 @@ class ResponsibilityService {
     }
 
     fun getUserMentioned(message: Message): UserDto? {
-        // TODO: нужно, чтобы вначале все участники попали в бд!!!!!!
         for (item in message.entities) {
             if (item.type == "text_mention") {
-                return UserDto(item.user.id)
+                return UserDto(item.user.id.toString())
             } else if (item.type == "mention") {
                 return userRepository.findByName(item.text.substring(1))
             }
