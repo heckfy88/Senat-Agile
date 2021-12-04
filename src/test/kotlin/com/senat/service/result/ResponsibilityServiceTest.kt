@@ -1,5 +1,6 @@
 package com.senat.service.result
 
+/*
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import com.senat.dto.IdeaDto
@@ -78,3 +79,4 @@ class ResponsibilityServiceTest {
         )
     }
 }
+*/

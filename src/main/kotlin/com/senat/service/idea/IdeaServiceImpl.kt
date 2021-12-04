@@ -1,7 +1,9 @@
 package com.senat.service.idea
 
 import com.senat.dto.IdeaDto
+import com.senat.dto.PermissionDto
 import com.senat.dto.UserDto
+
 import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
 import com.senat.service.message.SendBotMessageService
@@ -18,6 +20,7 @@ class IdeaServiceImpl: IdeaService {
     @Autowired
     lateinit var userRepository: UserRepository
 
+
     @Autowired
     private lateinit var sendBotMessageService: SendBotMessageService
 
@@ -27,9 +30,14 @@ class IdeaServiceImpl: IdeaService {
 
         val user = UserDto(
             userId = message.from.id,
-            name = message.from.userName
+            name = message.from.firstName + " " + message.from.lastName,
+            permissions = PermissionDto(
+                vote = true
+            )
         )
         userRepository.save(user)
+
+
         val idea = IdeaDto(
             message = message.text.substring(5),
             sender = user
@@ -39,4 +47,5 @@ class IdeaServiceImpl: IdeaService {
         sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваша идея отправлена")
 
     }
-}
+ }
+

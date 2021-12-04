@@ -1,7 +1,6 @@
 package com.senat.command
 
 import com.senat.command.executor.*
-import com.senat.service.message.SendBotMessageService
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -25,6 +24,8 @@ class CommandContainer {
         this.add(context.getBean(IdeaCommand::class.java))
         this.add(context.getBean(ResponsibleCommand::class.java))
         this.add(context.getBean(VoteCommand::class.java))
+        this.add(context.getBean(HiCommand::class.java))
+        this.add(context.getBean(DiscussionCommand::class.java))
     }
 
     fun add(command: Command) {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update
 
 @Component
-class VoteCommand(private val voteService: VoteService) : Command {
+class VoteCommand(private var voteService: VoteService) : Command {
 
     override fun execute(update: Update) {
         voteService.vote(update)

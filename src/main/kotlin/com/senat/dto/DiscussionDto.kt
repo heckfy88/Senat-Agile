@@ -1,17 +1,16 @@
 package com.senat.dto
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 @Entity
 data class DiscussionDto (
     @Id
-    val discussionId: Long,
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    val discussionId: Long = 0,
     val title: String,
     @OneToMany
     val ideas: MutableList<IdeaDto> = mutableListOf(),
-    val startTimestamp: String,
-    val endTimestamp: String
+
+    val discussionStarted: Boolean
 )
 
