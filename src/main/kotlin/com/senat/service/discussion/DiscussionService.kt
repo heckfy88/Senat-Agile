@@ -32,28 +32,16 @@ class DiscussionService {
         val config = chatRepository.findById(update.message.chatId).get()
 
         if (!config.discussion) {
-            sendBotMessageService.sendMessage(
-                update.message.chatId.toString(),
-                "Уже идет обсуждение!"
-            )
+            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Уже идет обсуждение!")
         } else {
             val message = update.message.text.trim()
             val date = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
             val discussionText = message.substring(message.indexOf(" ") + 1)
-
-            result = discussionRepository.save(
-                DiscussionDto(
-                    title = discussionText,
-                    date = date,
-                    chatId = update.message.chatId)
-            )
+            result = discussionRepository.save(DiscussionDto(title = discussionText, date = date, chatId = update.message.chatId))
             config.discussion = false
             config.idea = true
             chatRepository.save(config)
-            sendBotMessageService.sendMessage(
-                update.message.chatId.toString(),
-                "Обсуждение началось, тема: $discussionText, предлагайте свои идеи!"
-            )
+            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Обсуждение началось, тема: $discussionText, предлагайте свои идеи!")
         }
         if (result != null) ideasTimer(update)
 
@@ -61,39 +49,30 @@ class DiscussionService {
     }
 
     fun ideasTimer(update: Update) {
-        Executors.newSingleThreadScheduledExecutor().schedule(
-            {
-                val config = chatRepository.findById(update.message.chatId).get()
-                config.idea = false
-                config.vote = true
-
-                chatRepository.save(config)
-                sendBotMessageService.sendMessage(
-                    update.message.chatId.toString(),
-                    "Прием идей окончен, начато голосование!"
-                )
-                votingTimer(update)
-            },
-            15,
-            TimeUnit.SECONDS
-        )
+        Executors.newSingleThreadScheduledExecutor().schedule({
+            val config = chatRepository.findById(update.message.chatId).get()
+            config.idea = false
+            config.vote = true
+            chatRepository.save(config)
+            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Прием идей окончен, начато голосование!")
+            discussionRepository.findFirstByChatIdOrderByIdDesc(update.message.chatId).ideas.forEach {
+                sendBotMessageService.sendMessage(update.message.chatId.toString(), "Идея №${it.id} \n${it.body}")
+            }
+            votingTimer(update)
+        }, 10, TimeUnit.SECONDS)
     }
 
     fun votingTimer(update: Update) {
-        Executors.newSingleThreadScheduledExecutor().schedule(
-            {
-                val config = chatRepository.findById(update.message.chatId).get()
-                config.vote = false
-                config.discussion = true
-
-                chatRepository.save(config)
-                sendBotMessageService.sendMessage(
-                    update.message.chatId.toString(),
-                    "Голосование окончено!"
-                )
-            },
-            15,
-            TimeUnit.SECONDS
-        )
+        Executors.newSingleThreadScheduledExecutor().schedule({
+            val config = chatRepository.findById(update.message.chatId).get()
+            config.vote = false
+            config.responsible = true
+            config.discussion = true
+            chatRepository.save(config)
+            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование окончено!")
+            discussionRepository.findFirstByChatIdOrderByIdDesc(update.message.chatId).ideas.forEach {
+                sendBotMessageService.sendMessage(update.message.chatId.toString(), "Идея №${it.id} \n${it.body} \nГолоса: ${it.votes}")
+            }
+        }, 1, TimeUnit.SECONDS)
     }
 }

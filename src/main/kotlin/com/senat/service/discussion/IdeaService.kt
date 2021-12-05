@@ -37,7 +37,7 @@ class IdeaService {
 
         if (config.idea) {
             currentDiscussion = discussionRepository
-                .findFirstByChatIdOrderByDiscussionIdDesc(message.chatId)
+                .findFirstByChatIdOrderByIdDesc(message.chatId)
 
             val user = UserDto(
                 userId = message.from.id.toString(),
@@ -46,11 +46,13 @@ class IdeaService {
             userRepository.save(user)
 
             val idea = IdeaDto(
-                message = message.text.substring(5), // нужно разобраться
+                body = message.text.substring(5), // нужно разобраться
                 sender = user,
                 discussion = currentDiscussion
             )
-            ideaRepository.save(idea)
+            currentDiscussion.addIdea(idea)
+            discussionRepository.save(currentDiscussion)
+//            ideaRepository.save(idea)
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваша идея отправлена")
         } else {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Предложение идей не активно")

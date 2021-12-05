@@ -13,6 +13,7 @@ class SendBotMessageServiceImpl @Autowired constructor(
 
     override fun sendMessage(chatId: String, message: String) {
         val sendMessage = SendMessage()
+        sendMessage.enableMarkdown(true)
         sendMessage.chatId = chatId
         sendMessage.text = message
 

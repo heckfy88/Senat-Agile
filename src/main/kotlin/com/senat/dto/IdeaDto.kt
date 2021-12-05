@@ -6,14 +6,11 @@ import javax.persistence.*
 data class IdeaDto (
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    val ideaId: Long = 0,
-
-//    val discussionId: Long,
-
-    @ManyToOne
-    val discussion: DiscussionDto,
-
-    val message: String, //TODO Отрефакторить
+    val id: Long = 0,
+    @ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.PERSIST])
+    @JoinColumn
+    var discussion: DiscussionDto,
+    val body: String, //TODO Отрефакторить
     var votes: Int = 0,
     @OneToOne
     val sender: UserDto,

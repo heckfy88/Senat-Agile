@@ -36,7 +36,7 @@ class DiscussionResultService(
 
     companion object {
         fun formVotingMessage(idea: IdeaDto): String {
-            val ideaMessage = idea.message
+            val ideaMessage = idea.body
             val ideaSender = idea.sender.name
             val ideaVotes = idea.votes
 
