@@ -6,8 +6,8 @@ import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
 
 @Service
@@ -21,56 +21,32 @@ class ResponsibilityService {
     @Autowired
     private lateinit var sendBotMessageService: SendBotMessageService
 
-    fun setResponsible(update: Update): IdeaDto? {
-        lateinit var idea: IdeaDto
-        var ideaId: Long = 0
+    fun setResponsible(update: Update) {
+        val idea: IdeaDto?
+        val ideaId: Long
         val chatId = update.message.chatId.toString()
-        val user: UserDto? = getUserMentioned(update.message)
-
+        var user: UserDto? = null
         val commandParameters = update.message.text.trim()
             .split("\\s+".toRegex())
-        if (commandParameters.size != 3) {
-            sendBotMessageService.sendMessage(
-                chatId,
-                "Неверное количество аргументов"
-            )
-            return null
-        }
 
-        try {
-            ideaId = commandParameters[1].toLong()
-            idea = ideaRepository.findById(ideaId).get()
-        } catch (e: Exception) {
-            sendBotMessageService.sendMessage(
-                chatId,
-                "Идея с данным id не существует"
-            )
-            return null
-        }
-
-        if (user == null) {
-            sendBotMessageService.sendMessage(
-                chatId,
-                "Пользователь не найден"
-            )
-            return null
-        }
-
-        idea.responsible = user
-        return ideaRepository.save(idea)
-    }
-
-    fun getUserMentioned(message: Message): UserDto? {
-        for (item in message.entities) {
-            val userName = item.text.substring(1)
-            val userId = item.user.id.toString()
-
-            if (item.type == "text_mention") {
-                return UserDto(userId)
-            } else if (item.type == "mention") {
-                return userRepository.findByName(userName)
+        update.message.entities.forEach {
+            if (it.type == "mention") {
+                user = UserDto(userId = it.text)
+                userRepository.save(user!!)
+            } else if (it.type == "text_mention") {
+                user = UserDto(userId = it.user.id.toString())
+                userRepository.save(user!!)
             }
         }
-        return null
+
+        ideaId = commandParameters[1].toLong()
+        idea = ideaRepository.findByIdOrNull(ideaId)
+        if (idea != null) {
+            idea.responsible = user
+            ideaRepository.save(idea)
+            sendBotMessageService.sendMessage(chatId, "Ответственный за идею ${idea.id}: ${ideaRepository.findById(ideaId).get().responsible!!.userId}")
+        } else {
+            sendBotMessageService.sendMessage(chatId, "Идеи с таким ID не существует")
+        }
     }
 }
