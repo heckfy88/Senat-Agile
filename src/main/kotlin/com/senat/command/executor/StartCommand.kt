@@ -17,9 +17,14 @@ class StartCommand(private val sendBotMessageService: SendBotMessageService) : C
     private val startMessage = "Добро пожаловать"
 
     override fun execute(update: Update) {
-        chatRepository.save(ChatDto(update.message.chatId))
-        println("Чат сохранен: ${update.message.chatId}")
-        sendBotMessageService.sendMessage(update.message.chatId.toString(), startMessage)
+        val chatId = update.message.chatId
+
+        chatRepository.save(ChatDto(chatId))
+        println("Чат сохранен: $chatId")
+        sendBotMessageService.sendMessage(
+            update.message.chatId.toString(),
+            startMessage
+        )
     }
 
     override fun getCommand(): String = "/start"

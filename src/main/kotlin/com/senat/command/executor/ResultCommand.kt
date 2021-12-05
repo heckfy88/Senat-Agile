@@ -18,12 +18,19 @@ class ResultCommand(private val sendBotMessageService: SendBotMessageService): C
     override fun execute(update: Update) {
         val message = update.message
         val chatId = message.chatId
+
         if(message.text.length > 6) {
             val date = message.text.substring(7)
             val response = discussionResultService.collectDiscussionResult(date)
-            sendBotMessageService.sendMessage(chatId.toString(), response)
+            sendBotMessageService.sendMessage(
+                chatId.toString(),
+                response
+            )
         } else {
-            sendBotMessageService.sendMessage(chatId.toString(), "Для получения отчета необходимо ввести дату")
+            sendBotMessageService.sendMessage(
+                chatId.toString(),
+                "Для получения отчета необходимо ввести дату"
+            )
         }
     }
 }

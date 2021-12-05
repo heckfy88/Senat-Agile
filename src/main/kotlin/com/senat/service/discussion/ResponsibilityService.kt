@@ -30,7 +30,10 @@ class ResponsibilityService {
         val commandParameters = update.message.text.trim()
             .split("\\s+".toRegex())
         if (commandParameters.size != 3) {
-            sendBotMessageService.sendMessage(chatId, "Неверное количество аргументов")
+            sendBotMessageService.sendMessage(
+                chatId,
+                "Неверное количество аргументов"
+            )
             return null
         }
 
@@ -38,12 +41,18 @@ class ResponsibilityService {
             ideaId = commandParameters[1].toLong()
             idea = ideaRepository.findById(ideaId).get()
         } catch (e: Exception) {
-            sendBotMessageService.sendMessage(chatId, "Идея с данным id не существует")
+            sendBotMessageService.sendMessage(
+                chatId,
+                "Идея с данным id не существует"
+            )
             return null
         }
 
         if (user == null) {
-            sendBotMessageService.sendMessage(chatId, "Пользователь не найден")
+            sendBotMessageService.sendMessage(
+                chatId,
+                "Пользователь не найден"
+            )
             return null
         }
 
@@ -53,10 +62,13 @@ class ResponsibilityService {
 
     fun getUserMentioned(message: Message): UserDto? {
         for (item in message.entities) {
+            val userName = item.text.substring(1)
+            val userId = item.user.id.toString()
+
             if (item.type == "text_mention") {
-                return UserDto(item.user.id.toString())
+                return UserDto(userId)
             } else if (item.type == "mention") {
-                return userRepository.findByName(item.text.substring(1))
+                return userRepository.findByName(userName)
             }
         }
         return null

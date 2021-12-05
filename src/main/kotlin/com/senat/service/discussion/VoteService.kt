@@ -1,8 +1,10 @@
 package com.senat.service.discussion
 
 import com.senat.dto.IdeaDto
+import com.senat.dto.UserDto
 import com.senat.repository.IdeaRepository
 import com.senat.repository.ChatRepository
+import com.senat.repository.UserRepository
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -10,6 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.Update
 
 @Service
 class VoteService {
+
+    @Autowired
+    private lateinit var userRepository: UserRepository
 
     @Autowired
     private lateinit var ideaRepository: IdeaRepository
@@ -24,16 +29,36 @@ class VoteService {
 
         val message = update.message
 
-        val config = chatRepository.findById(message.chatId).get()
+        val config = chatRepository.findById(message.chatId).orElse(null)
 
         if (config.vote) {
-            val ideaVotes: IdeaDto = ideaRepository.findById(message.text.substring(6).toLong()).get()
-            ideaVotes.votes++
-            ideaRepository.save(ideaVotes)
-
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваш голос учтен")
+            val votingUserId = message.from.id.toString()
+            val idea = ideaRepository.findById(message.text.substring(6).toLong()).orElse(null)
+            val user = userRepository.findByUserId(votingUserId).get()
+            if(idea == null) {
+                sendBotMessageService.sendMessage(
+                    update.message.chatId.toString(),
+                    "Невозможно проголосовать за несуществующую идею"
+                )
+            } else {
+                if (idea.votedUsers.contains(user)) {
+                    sendBotMessageService.sendMessage(
+                        update.message.chatId.toString(),
+                        "Невозможно повтроное голосование за одну идею"
+                    )
+                } else {
+                    idea.votedUsers.add(user)
+                    idea.votes++
+                    ideaRepository.save(idea)
+                    sendBotMessageService.sendMessage(
+                        update.message.chatId.toString(),
+                        "Ваш голос учтен")
+                }
+            }
         } else {
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование не активно")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Голосование не активно")
         }
 
     }

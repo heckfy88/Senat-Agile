@@ -31,15 +31,13 @@ class IdeaService {
     private lateinit var sendBotMessageService: SendBotMessageService
 
     fun sendIdea(update: Update) {
-
         val message = update.message
-
         val config = chatRepository.findById(message.chatId).get()
-
-        var currentDiscussion: DiscussionDto
+        val currentDiscussion: DiscussionDto
 
         if (config.idea) {
-            currentDiscussion = discussionRepository.findFirstByChatIdOrderByDiscussionIdDesc(message.chatId)
+            currentDiscussion = discussionRepository
+                .findFirstByChatIdOrderByDiscussionIdDesc(message.chatId)
 
             val user = UserDto(
                 userId = message.from.id.toString(),

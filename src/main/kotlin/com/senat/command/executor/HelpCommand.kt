@@ -19,7 +19,10 @@ class HelpCommand(private var sendBotMessageService: SendBotMessageService) : Co
                 "✅ /responsible {id идеи} {@упомянутый пользователь}: назначь ответственного\n"
 
     override fun execute(update: Update) {
-        sendBotMessageService.sendMessage(update.message.chatId.toString(), instructions)
+        sendBotMessageService.sendMessage(
+            update.message.chatId.toString(),
+            instructions
+        )
     }
 
     override fun getCommand() = "/help"

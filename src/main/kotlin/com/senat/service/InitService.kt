@@ -12,9 +12,15 @@ class InitService {
     private lateinit var userRepository: UserRepository
 
     fun registerNewUserInDatabase(update: Update) {
-        if (update.message.newChatMembers.size != 0) {
-            update.message.newChatMembers.forEach {
-                userRepository.save(UserDto(it.id.toString(), it.userName))
+        val chatMembers = update.message.newChatMembers
+        if (chatMembers.size != 0) {
+            chatMembers.forEach {
+                userRepository.save(
+                    UserDto(
+                        it.id.toString(),
+                        it.userName
+                    )
+                )
             }
         }
     }
@@ -23,6 +29,11 @@ class InitService {
         val user = update.message.from
         val userId = user.id
         val userName = user.userName
-        userRepository.save(UserDto(userId.toString(), userName))
+        userRepository.save(
+            UserDto(
+                userId.toString(),
+                userName
+            )
+        )
     }
 }
