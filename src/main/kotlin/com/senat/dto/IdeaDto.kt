@@ -8,6 +8,11 @@ data class IdeaDto (
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     val ideaId: Long = 0,
 
+//    val discussionId: Long,
+
+    @ManyToOne
+    val discussion: DiscussionDto,
+
     val message: String, //TODO Отрефакторить
     var votes: Int = 0,
     @OneToOne
