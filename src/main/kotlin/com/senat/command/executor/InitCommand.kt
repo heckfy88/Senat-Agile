@@ -11,5 +11,5 @@ class InitCommand(private var initService: InitService) : Command {
         initService.initializeUsers(update)
     }
 
-    override fun getCommand() = "/hi"
+    override fun getCommand() = "/reg"
 }

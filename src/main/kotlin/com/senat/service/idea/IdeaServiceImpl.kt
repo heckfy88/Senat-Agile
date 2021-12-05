@@ -1,5 +1,6 @@
 package com.senat.service.idea
 
+import com.senat.dto.DiscussionDto
 import com.senat.dto.IdeaDto
 import com.senat.dto.UserDto
 import com.senat.repository.IdeaRepository

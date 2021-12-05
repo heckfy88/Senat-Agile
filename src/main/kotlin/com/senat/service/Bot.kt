@@ -1,6 +1,7 @@
 package com.senat.service
 
 import com.senat.command.CommandContainer
+import com.senat.service.message.SendBotMessageServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -27,9 +28,20 @@ class Bot : TelegramLongPollingBot() {
     override fun getBotUsername(): String = botName
 
     override fun onUpdateReceived(update: Update?) {
-        if (update!!.hasMessage()) {
+//        if (update!!.hasMessage() && update!!.message.newChatMembers.size != 0) {
+//            for (newChatMember in update.message.newChatMembers) {
+//                println(newChatMember.id)
+//                println(newChatMember.userName)
+//            }
+//        }
+//        update.message.chat.isGroupChat
+
+        if (update!!.hasMessage() && update.message.hasText()) {
             val messageText = update.message.text
-            if (messageText != null && messageText.startsWith(commandPrefix)) {
+            if (update.message.isCommand) {
+//                println(update.message.from.id)
+//                println(update.message.from.userName)
+//                SendBotMessageServiceImpl(this).sendMessage(update.message.chatId.toString(), "Айди юзера: ${update.message.from.id} ник юзера: ${update.message.from.userName}")
                 val commandIdentifier = messageText
                     .split("\\s+".toRegex())[0]
                     .lowercase(Locale.getDefault())
