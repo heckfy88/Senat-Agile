@@ -24,10 +24,12 @@ class VoteService {
 
         val message = update.message
 
+        val commandParameters = update.getCommandParameters()
+
         val config = chatRepository.findById(message.chatId).get()
 
         if (config.vote) {
-            val ideaVotes: IdeaDto = ideaRepository.findById(message.text.substring(6).toLong()).get()
+            val ideaVotes: IdeaDto = ideaRepository.findById(commandParameters[0].toLong()).get()
             ideaVotes.votes++
             ideaRepository.save(ideaVotes)
 
@@ -35,8 +37,15 @@ class VoteService {
         } else {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование не активно")
         }
-
     }
 
+    companion object{
+        private const val COMMAND_DELIMITER: String = "\\s"
 
+        fun Update.getCommandParameters(): List<String> {
+            val message = message.text.trim()
+            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
+            return  commandParameters.subList(1, commandParameters.size)
+        }
+    }
 }

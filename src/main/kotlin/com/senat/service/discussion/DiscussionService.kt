@@ -4,6 +4,7 @@ import com.senat.dto.DiscussionDto
 import com.senat.repository.ChatRepository
 import com.senat.repository.DiscussionRepository
 import com.senat.repository.IdeaRepository
+import com.senat.service.discussion.IdeaService.Companion.getCommandParameters
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -28,15 +29,18 @@ class DiscussionService {
     private lateinit var chatRepository: ChatRepository
 
     fun createDiscussion(update: Update): DiscussionDto? {
+
         var result: DiscussionDto? = null
+
         val config = chatRepository.findById(update.message.chatId).get()
+
+        val commandParameters = update.getCommandParameters()
 
         if (!config.discussion) {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Уже идет обсуждение!")
         } else {
-            val message = update.message.text.trim()
             val date = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
-            val discussionText = message.substring(message.indexOf(" ") + 1)
+            val discussionText = commandParameters[0]
             result = discussionRepository.save(DiscussionDto(title = discussionText, date = date, chatId = update.message.chatId))
             config.discussion = false
             config.idea = true
@@ -56,7 +60,7 @@ class DiscussionService {
             chatRepository.save(config)
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Прием идей окончен, начато голосование!")
             votingTimer(update)
-        }, 15, TimeUnit.SECONDS)
+        }, 20, TimeUnit.SECONDS)
     }
 
     fun votingTimer(update: Update) {
@@ -66,6 +70,16 @@ class DiscussionService {
             config.discussion = true
             chatRepository.save(config)
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование окончено!")
-        }, 1, TimeUnit.SECONDS)
+        }, 20, TimeUnit.SECONDS)
+    }
+
+    companion object{
+        private const val COMMAND_DELIMITER: String = "\\s"
+
+        fun Update.getCommandParameters(): List<String> {
+            val message = message.text.trim()
+            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
+            return  commandParameters.subList(1, commandParameters.size)
+        }
     }
 }

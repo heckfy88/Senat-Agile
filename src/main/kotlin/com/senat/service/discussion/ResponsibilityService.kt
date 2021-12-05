@@ -4,6 +4,7 @@ import com.senat.dto.IdeaDto
 import com.senat.dto.UserDto
 import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
+import com.senat.service.discussion.VoteService.Companion.getCommandParameters
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -27,8 +28,7 @@ class ResponsibilityService {
         val chatId = update.message.chatId.toString()
         val user: UserDto? = getUserMentioned(update.message)
 
-        val commandParameters = update.message.text.trim()
-            .split("\\s+".toRegex())
+        val commandParameters = update.getCommandParameters()
         if (commandParameters.size != 3) {
             sendBotMessageService.sendMessage(chatId, "Неверное количество аргументов")
             return null
@@ -60,5 +60,15 @@ class ResponsibilityService {
             }
         }
         return null
+    }
+
+    companion object{
+        private const val COMMAND_DELIMITER: String = "\\s"
+
+        fun Update.getCommandParameters(): List<String> {
+            val message = message.text.trim()
+            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
+            return  commandParameters.subList(1, commandParameters.size)
+        }
     }
 }

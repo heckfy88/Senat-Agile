@@ -7,6 +7,7 @@ import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
 import com.senat.repository.ChatRepository
 import com.senat.repository.DiscussionRepository
+import com.senat.service.discussion.VoteService.Companion.getCommandParameters
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -36,7 +37,9 @@ class IdeaService {
 
         val config = chatRepository.findById(message.chatId).get()
 
-        var currentDiscussion: DiscussionDto
+        val commandParameters = update.getCommandParameters()
+
+        val currentDiscussion: DiscussionDto
 
         if (config.idea) {
             currentDiscussion = discussionRepository.findFirstByChatIdOrderByDiscussionIdDesc(message.chatId)
@@ -48,7 +51,7 @@ class IdeaService {
             userRepository.save(user)
 
             val idea = IdeaDto(
-                message = message.text.substring(5), // нужно разобраться
+                message = commandParameters[0], // нужно разобраться, поменял на CommandParameters
                 sender = user,
                 discussion = currentDiscussion
             )
@@ -56,6 +59,16 @@ class IdeaService {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваша идея отправлена")
         } else {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Предложение идей не активно")
+        }
+    }
+
+    companion object{
+        private const val COMMAND_DELIMITER: String = "\\s"
+
+        fun Update.getCommandParameters(): List<String> {
+            val message = message.text.trim()
+            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
+            return  commandParameters.subList(1, commandParameters.size)
         }
     }
 }
