@@ -28,26 +28,25 @@ class SenatAgileBot : TelegramLongPollingBot() {
     override fun getBotUsername(): String = botName
 
     override fun onUpdateReceived(update: Update?) {
-//        if (update!!.hasMessage() && update!!.message.newChatMembers.size != 0) {
-//            for (newChatMember in update.message.newChatMembers) {
-//                println(newChatMember.id)
-//                println(newChatMember.userName)
-//            }
-//        }
-//        update.message.chat.isGroupChat
-
         if (update!!.hasMessage() && update.message.hasText()) {
             val messageText = update.message.text
             if (update.message.isCommand) {
-//                println(update.message.from.id)
-//                println(update.message.from.userName)
-//                SendBotMessageServiceImpl(this).sendMessage(update.message.chatId.toString(), "Айди юзера: ${update.message.from.id} ник юзера: ${update.message.from.userName}")
                 val commandIdentifier = messageText
                     .split("\\s+".toRegex())[0]
                     .lowercase(Locale.getDefault())
                 val command = commandContainer.retrieveCommand(commandIdentifier)
                 command.execute(update)
             }
+        }
+    }
+
+    companion object{
+        private const val COMMAND_DELIMITER: String = "\\s"
+
+        fun Update.getCommandParameters(): List<String> {
+            val message = message.text.trim()
+            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
+            return  commandParameters.subList(1, commandParameters.size)
         }
     }
 }

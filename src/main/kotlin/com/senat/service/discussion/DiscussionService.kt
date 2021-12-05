@@ -3,8 +3,7 @@ package com.senat.service.discussion
 import com.senat.dto.DiscussionDto
 import com.senat.repository.ChatRepository
 import com.senat.repository.DiscussionRepository
-import com.senat.repository.IdeaRepository
-import com.senat.service.discussion.IdeaService.Companion.getCommandParameters
+import com.senat.service.SenatAgileBot.Companion.getCommandParameters
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -18,9 +17,6 @@ import java.util.concurrent.TimeUnit
 class DiscussionService {
     @Autowired
     private lateinit var discussionRepository: DiscussionRepository
-
-    @Autowired
-    private lateinit var ideaRepository: IdeaRepository
 
     @Autowired
     private lateinit var sendBotMessageService: SendBotMessageService
@@ -71,15 +67,5 @@ class DiscussionService {
             chatRepository.save(config)
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование окончено!")
         }, 20, TimeUnit.SECONDS)
-    }
-
-    companion object{
-        private const val COMMAND_DELIMITER: String = "\\s"
-
-        fun Update.getCommandParameters(): List<String> {
-            val message = message.text.trim()
-            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
-            return  commandParameters.subList(1, commandParameters.size)
-        }
     }
 }

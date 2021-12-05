@@ -3,6 +3,7 @@ package com.senat.service.discussion
 import com.senat.dto.IdeaDto
 import com.senat.repository.IdeaRepository
 import com.senat.repository.ChatRepository
+import com.senat.service.SenatAgileBot.Companion.getCommandParameters
 import com.senat.service.message.SendBotMessageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -36,16 +37,6 @@ class VoteService {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваш голос учтен")
         } else {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование не активно")
-        }
-    }
-
-    companion object{
-        private const val COMMAND_DELIMITER: String = "\\s"
-
-        fun Update.getCommandParameters(): List<String> {
-            val message = message.text.trim()
-            val commandParameters = message.split(COMMAND_DELIMITER.toRegex())
-            return  commandParameters.subList(1, commandParameters.size)
         }
     }
 }
