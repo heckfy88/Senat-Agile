@@ -16,6 +16,6 @@ data class IdeaDto (
     val sender: UserDto,
     @ManyToOne
     var responsible: UserDto? = null,
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     val votedUsers: MutableList<UserDto> = mutableListOf()
 )
