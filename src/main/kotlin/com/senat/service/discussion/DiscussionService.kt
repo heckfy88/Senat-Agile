@@ -74,7 +74,7 @@ class DiscussionService {
                 )
             }
             votingTimer(update)
-        }, 15, TimeUnit.SECONDS)
+        }, 300, TimeUnit.SECONDS)
     }
 
     fun votingTimer(update: Update) {
@@ -94,6 +94,6 @@ class DiscussionService {
                     "Идея №${it.id} \n${it.body} \nГолоса: ${it.votes}"
                 )
             }
-        }, 30, TimeUnit.SECONDS)
+        }, 60, TimeUnit.SECONDS)
     }
 }
