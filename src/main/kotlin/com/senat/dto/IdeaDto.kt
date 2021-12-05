@@ -10,7 +10,7 @@ data class IdeaDto (
     @ManyToOne(cascade = [CascadeType.REFRESH, CascadeType.PERSIST])
     @JoinColumn
     var discussion: DiscussionDto,
-    val body: String, //TODO Отрефакторить
+    val body: String,
     var votes: Int = 0,
     @OneToOne
     val sender: UserDto,

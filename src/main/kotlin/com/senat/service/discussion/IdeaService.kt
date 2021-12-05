@@ -14,10 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.Update
 
 @Service
 class IdeaService {
-
-    @Autowired
-    lateinit var ideaRepository: IdeaRepository
-
     @Autowired
     lateinit var userRepository: UserRepository
 
@@ -52,7 +48,6 @@ class IdeaService {
             )
             currentDiscussion.addIdea(idea)
             discussionRepository.save(currentDiscussion)
-//            ideaRepository.save(idea)
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваша идея отправлена")
         } else {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Предложение идей не активно")

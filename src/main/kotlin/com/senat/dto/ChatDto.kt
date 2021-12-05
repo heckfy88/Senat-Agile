@@ -5,7 +5,7 @@ import javax.persistence.*
 @Entity
 class ChatDto (
     @Id
-    val chat_id: Long,
+    val id: Long,
     var discussion: Boolean = true,
     var idea: Boolean = false,
     var vote: Boolean = false,

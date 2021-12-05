@@ -59,7 +59,7 @@ class DiscussionService {
                 sendBotMessageService.sendMessage(update.message.chatId.toString(), "Идея №${it.id} \n${it.body}")
             }
             votingTimer(update)
-        }, 10, TimeUnit.SECONDS)
+        }, 30, TimeUnit.SECONDS)
     }
 
     fun votingTimer(update: Update) {
@@ -73,6 +73,6 @@ class DiscussionService {
             discussionRepository.findFirstByChatIdOrderByIdDesc(update.message.chatId).ideas.forEach {
                 sendBotMessageService.sendMessage(update.message.chatId.toString(), "Идея №${it.id} \n${it.body} \nГолоса: ${it.votes}")
             }
-        }, 1, TimeUnit.SECONDS)
+        }, 30, TimeUnit.SECONDS)
     }
 }

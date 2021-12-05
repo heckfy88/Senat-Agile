@@ -11,20 +11,6 @@ class InitService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
-    fun registerNewUserInDatabase(update: Update) {
-        val chatMembers = update.message.newChatMembers
-        if (chatMembers.size != 0) {
-            chatMembers.forEach {
-                userRepository.save(
-                    UserDto(
-                        it.id.toString(),
-                        it.userName
-                    )
-                )
-            }
-        }
-    }
-
     fun initializeUsers(update: Update) {
         val user = update.message.from
         val userId = user.id
