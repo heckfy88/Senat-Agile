@@ -34,7 +34,16 @@ class VoteService {
         if (config.vote) {
             val votingUserId = message.from.id.toString()
             val idea = ideaRepository.findById(message.text.substring(6).toLong()).orElse(null)
-            val user = userRepository.findByUserId(votingUserId).get()
+            var user = userRepository.findByUserId(votingUserId).orElse(null)
+
+            if (user == null) {
+                val userSaved = UserDto(
+                    userId = message.from.id.toString(),
+                    name = message.from.userName
+                )
+                userRepository.save(userSaved)
+                user = userSaved
+            }
             if(idea == null) {
                 sendBotMessageService.sendMessage(
                     update.message.chatId.toString(),
