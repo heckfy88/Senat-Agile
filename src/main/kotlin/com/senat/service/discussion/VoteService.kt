@@ -53,7 +53,7 @@ class VoteService {
                 if (idea.votedUsers.contains(user)) {
                     sendBotMessageService.sendMessage(
                         update.message.chatId.toString(),
-                        "Невозможно повтроное голосование за одну идею"
+                        "Невозможно повторное голосование за одну идею"
                     )
                 } else {
                     idea.votedUsers.add(user)
