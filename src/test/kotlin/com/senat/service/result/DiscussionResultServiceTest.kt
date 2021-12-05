@@ -72,22 +72,22 @@ class DiscussionResultServiceTest {
 
     companion object {
         val idea1 = IdeaDto(
-            ideaId = 0,
-            message = "Поставить кофемашину в кабинет!",
+            id = 0,
+            body = "Поставить кофемашину в кабинет!",
             votes = 8,
             sender = UserDto(name = "Петр"),
             discussion = DiscussionDto(title = "some", chatId = 1)
         )
         val idea2 = IdeaDto(
-            ideaId = 0,
-            message = "Надоело начальство, давайте поменяем его!",
+            id = 0,
+            body = "Надоело начальство, давайте поменяем его!",
             votes = 2,
             sender = UserDto(name = "Иван"),
             discussion = DiscussionDto(title = "some", chatId = 1)
         )
         val idea3 = IdeaDto(
-            ideaId = 0,
-            message = "Хочу котиков на рабочем месте...",
+            id = 0,
+            body = "Хочу котиков на рабочем месте...",
             votes = 5,
             sender = UserDto(name = "Олеся"),
             discussion = DiscussionDto(title = "some", chatId = 1)
@@ -108,7 +108,7 @@ class DiscussionResultServiceTest {
         )
 
         fun formVotingMessage(idea: IdeaDto): String {
-            val ideaMessage = idea.message
+            val ideaMessage = idea.body
             val ideaSender = idea.sender.name
             val ideaVotes = idea.votes
 

@@ -71,8 +71,8 @@ class VoteServiceTest {
             vote = true
         )
         val idea = IdeaDto(
-            ideaId = 1,
-            message = "Поставить кофемашину в кабинет!",
+            id = 1,
+            body = "Поставить кофемашину в кабинет!",
             votes = 0,
             sender = UserDto(name = "Петр"),
             discussion = DiscussionDto(title = "some", chatId = 1)

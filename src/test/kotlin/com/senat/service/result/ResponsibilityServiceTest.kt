@@ -52,8 +52,8 @@ class ResponsibilityServiceTest {
         whenever(update.message.text)
             .thenReturn("/responsible 1 @name")
         val expected = IdeaDto(
-            ideaId = 1,
-            message = "Поставить кофемашину в кабинет!",
+            id = 1,
+            body = "Поставить кофемашину в кабинет!",
             votes = 8,
             sender = UserDto(name = "Петр"),
             responsible = user,
@@ -65,8 +65,8 @@ class ResponsibilityServiceTest {
 
     companion object {
         val idea = IdeaDto(
-            ideaId = 1,
-            message = "Поставить кофемашину в кабинет!",
+            id = 1,
+            body = "Поставить кофемашину в кабинет!",
             votes = 8,
             sender = UserDto(name = "Петр"),
             responsible = null,
@@ -77,8 +77,8 @@ class ResponsibilityServiceTest {
             name = "name"
         )
         val expectedIdea = IdeaDto(
-            ideaId = 1,
-            message = "Поставить кофемашину в кабинет!",
+            id = 1,
+            body = "Поставить кофемашину в кабинет!",
             votes = 8,
             sender = UserDto(name = "Петр"),
             responsible = user,
