@@ -60,7 +60,7 @@ class IdeaServiceTest {
             .thenReturn(User(1, "", false, "", "name", "", true, true, true))
         whenever(chatRepository.findById(any()))
             .thenReturn(Optional.of(chat))
-        whenever(discussionRepository.findFirstByChatIdOrderByDiscussionIdDesc(any()))
+        whenever(discussionRepository.findFirstByChatIdOrderByIdDesc(any()))
             .thenReturn(discussion)
         whenever(userRepository.save(user))
             .thenReturn(user)
@@ -69,7 +69,7 @@ class IdeaServiceTest {
 
         ideaService.sendIdea(update)
         verify(chatRepository, times(1)).findById(any())
-        verify(discussionRepository, times(1)).findFirstByChatIdOrderByDiscussionIdDesc(any())
+        verify(discussionRepository, times(1)).findFirstByChatIdOrderByIdDesc(any())
         verify(userRepository, times(1)).save(user)
         verify(ideaRepository, times(1)).save(idea)
     }
@@ -88,8 +88,8 @@ class IdeaServiceTest {
             name = "name"
         )
         val idea = IdeaDto(
-            ideaId = 0,
-            message = "my brilliant idea",
+            id = 0,
+            body = "my brilliant idea",
             votes = 0,
             sender = user,
             discussion = discussion
