@@ -8,6 +8,7 @@ import com.senat.dto.IdeaDto
 import com.senat.dto.UserDto
 import com.senat.repository.ChatRepository
 import com.senat.repository.IdeaRepository
+import com.senat.repository.UserRepository
 import com.senat.service.discussion.VoteService
 import com.senat.service.message.SendBotMessageService
 import org.junit.Assert.assertEquals
@@ -18,12 +19,16 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.meta.api.objects.User
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class VoteServiceTest {
     @Mock
     lateinit var ideaRepository: IdeaRepository
+
+    @Mock
+    lateinit var userRepository: UserRepository
 
     @Mock
     lateinit var chatRepository: ChatRepository
@@ -52,7 +57,10 @@ class VoteServiceTest {
             .thenReturn(1)
         whenever(update.message.text)
             .thenReturn("/vote 1")
-
+        whenever(update.message.from)
+            .thenReturn(User(1, "", false, "", "name", "", true, true, true))
+        whenever(userRepository.findByUserId(any()))
+            .thenReturn(Optional.of(user))
         voteService.vote(update)
 
         assertEquals(1, idea.votes)
@@ -68,6 +76,10 @@ class VoteServiceTest {
             votes = 0,
             sender = UserDto(name = "Петр"),
             discussion = DiscussionDto(title = "some", chatId = 1)
+        )
+        val user = UserDto(
+            userId = "1",
+            name = "name"
         )
     }
 }

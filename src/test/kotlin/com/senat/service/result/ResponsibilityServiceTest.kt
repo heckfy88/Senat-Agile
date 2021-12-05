@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.meta.api.objects.User
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
@@ -84,6 +85,8 @@ class ResponsibilityServiceTest {
             discussion = DiscussionDto(title = "some", chatId = 1)
         )
         val messageEntity =
-            MessageEntity("mention", 0, 0, null, null, null, "@name")
+            MessageEntity("mention", 0, 0, null,
+                User(1, "", false, "", "name", "", true, true, true),
+                null, "@name")
     }
 }
