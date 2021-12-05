@@ -48,9 +48,15 @@ class IdeaService {
             )
             currentDiscussion.addIdea(idea)
             discussionRepository.save(currentDiscussion)
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Ваша идея отправлена")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Ваша идея отправлена"
+            )
         } else {
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Предложение идей не активно")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Предложение идей не активно"
+            )
         }
     }
 }

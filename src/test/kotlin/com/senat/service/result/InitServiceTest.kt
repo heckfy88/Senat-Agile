@@ -30,16 +30,6 @@ class InitServiceTest {
     lateinit var initService: InitService
 
     @Test
-    fun `should register new user in database`() {
-        whenever(update.message)
-            .thenReturn(message)
-        whenever(update.message.newChatMembers)
-            .thenReturn(listOf(User(1, "", false, "", "name", "", true, true, true)))
-        initService.registerNewUserInDatabase(update)
-        verify(userRepository, times(1)).save(user)
-    }
-
-    @Test
     fun `should initialize users`() {
         whenever(update.message)
             .thenReturn(message)

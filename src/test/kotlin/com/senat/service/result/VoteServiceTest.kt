@@ -67,7 +67,7 @@ class VoteServiceTest {
     }
     companion object {
         val chat = ChatDto(
-            chat_id = 1,
+            id = 1,
             vote = true
         )
         val idea = IdeaDto(

@@ -22,7 +22,6 @@ class StartCommand(private val sendBotMessageService: SendBotMessageService) : C
 
         if (chatRepository.findByIdOrNull(chatId) == null) {
             chatRepository.save(ChatDto(chatId))
-            println("Чат сохранен: $chatId")
         }
         sendBotMessageService.sendMessage(
             update.message.chatId.toString(),

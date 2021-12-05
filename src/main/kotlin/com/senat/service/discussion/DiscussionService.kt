@@ -19,9 +19,6 @@ class DiscussionService {
     private lateinit var discussionRepository: DiscussionRepository
 
     @Autowired
-    private lateinit var ideaRepository: IdeaRepository
-
-    @Autowired
     private lateinit var sendBotMessageService: SendBotMessageService
 
     @Autowired
@@ -32,16 +29,28 @@ class DiscussionService {
         val config = chatRepository.findById(update.message.chatId).get()
 
         if (!config.discussion) {
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Уже идет обсуждение!")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Уже идет обсуждение!"
+            )
         } else {
             val message = update.message.text.trim()
             val date = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now())
             val discussionText = message.substring(message.indexOf(" ") + 1)
-            result = discussionRepository.save(DiscussionDto(title = discussionText, date = date, chatId = update.message.chatId))
+            result = discussionRepository.save(
+                DiscussionDto(
+                    title = discussionText,
+                    date = date,
+                    chatId = update.message.chatId
+                )
+            )
             config.discussion = false
             config.idea = true
             chatRepository.save(config)
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Обсуждение началось, тема: $discussionText, предлагайте свои идеи!")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Обсуждение началось, тема: $discussionText, предлагайте свои идеи!"
+            )
         }
         if (result != null) ideasTimer(update)
 
@@ -54,9 +63,15 @@ class DiscussionService {
             config.idea = false
             config.vote = true
             chatRepository.save(config)
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Прием идей окончен, начато голосование!")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Прием идей окончен, начато голосование!"
+            )
             discussionRepository.findFirstByChatIdOrderByIdDesc(update.message.chatId).ideas.forEach {
-                sendBotMessageService.sendMessage(update.message.chatId.toString(), "Идея №${it.id} \n${it.body}")
+                sendBotMessageService.sendMessage(
+                    update.message.chatId.toString(),
+                    "Идея №${it.id} \n${it.body}"
+                )
             }
             votingTimer(update)
         }, 30, TimeUnit.SECONDS)
@@ -69,9 +84,15 @@ class DiscussionService {
             config.responsible = true
             config.discussion = true
             chatRepository.save(config)
-            sendBotMessageService.sendMessage(update.message.chatId.toString(), "Голосование окончено!")
+            sendBotMessageService.sendMessage(
+                update.message.chatId.toString(),
+                "Голосование окончено!"
+            )
             discussionRepository.findFirstByChatIdOrderByIdDesc(update.message.chatId).ideas.forEach {
-                sendBotMessageService.sendMessage(update.message.chatId.toString(), "Идея №${it.id} \n${it.body} \nГолоса: ${it.votes}")
+                sendBotMessageService.sendMessage(
+                    update.message.chatId.toString(),
+                    "Идея №${it.id} \n${it.body} \nГолоса: ${it.votes}"
+                )
             }
         }, 30, TimeUnit.SECONDS)
     }

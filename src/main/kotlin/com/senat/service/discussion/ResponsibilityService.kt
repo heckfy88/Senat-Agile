@@ -44,9 +44,15 @@ class ResponsibilityService {
         if (idea != null) {
             idea.responsible = user
             ideaRepository.save(idea)
-            sendBotMessageService.sendMessage(chatId, "Ответственный за идею ${idea.id}: ${ideaRepository.findById(ideaId).get().responsible!!.userId}")
+            sendBotMessageService.sendMessage(
+                chatId,
+                "Ответственный за идею ${idea.id}: ${ideaRepository.findById(ideaId).get().responsible!!.userId}"
+            )
         } else {
-            sendBotMessageService.sendMessage(chatId, "Идеи с таким ID не существует")
+            sendBotMessageService.sendMessage(
+                chatId,
+                "Идеи с таким ID не существует"
+            )
         }
     }
 }

@@ -61,7 +61,7 @@ class DiscussionServiceTest {
     }
     companion object {
         val chat = ChatDto(
-            chat_id = 1,
+            id = 1,
             discussion = true,
             idea = false
         )
