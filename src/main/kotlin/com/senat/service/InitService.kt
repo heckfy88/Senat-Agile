@@ -1,4 +1,4 @@
-package com.senat.service.init
+package com.senat.service
 
 import com.senat.dto.UserDto
 import com.senat.repository.UserRepository

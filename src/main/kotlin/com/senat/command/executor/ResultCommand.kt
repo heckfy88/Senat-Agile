@@ -1,7 +1,8 @@
 package com.senat.command.executor
 
+import com.senat.command.Command
 import com.senat.service.message.SendBotMessageService
-import com.senat.service.result.DiscussionResultService
+import com.senat.service.DiscussionResultService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update

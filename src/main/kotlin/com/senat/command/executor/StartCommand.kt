@@ -1,5 +1,6 @@
 package com.senat.command.executor
 
+import com.senat.command.Command
 import com.senat.dto.ChatDto
 import com.senat.repository.ChatRepository
 import com.senat.service.message.SendBotMessageService

@@ -1,4 +1,4 @@
-package com.senat.service.responsibility
+package com.senat.service.discussion
 
 import com.senat.dto.IdeaDto
 import com.senat.dto.UserDto

@@ -1,6 +1,7 @@
 package com.senat.command.executor
 
-import com.senat.service.responsibility.ResponsibilityService
+import com.senat.command.Command
+import com.senat.service.discussion.ResponsibilityService
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update
 

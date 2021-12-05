@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import java.util.*
 
 @Component
-class Bot : TelegramLongPollingBot() {
+class SenatAgileBot : TelegramLongPollingBot() {
 
     private val commandPrefix = "/"
 

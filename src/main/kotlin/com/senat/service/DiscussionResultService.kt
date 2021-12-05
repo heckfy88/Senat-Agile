@@ -1,5 +1,6 @@
-package com.senat.service.result
+package com.senat.service
 
+import com.senat.dto.DiscussionDto
 import com.senat.dto.IdeaDto
 import com.senat.repository.DiscussionRepository
 import com.senat.repository.IdeaRepository
@@ -11,14 +12,9 @@ class DiscussionResultService(
     private val discussionRepository: DiscussionRepository
     ) {
 
-    fun collectSingleIdeaVoting(ideaId: Long): String {
-        val idea = ideaRepository.findById(ideaId).get()
-        return formVotingMessage(idea)
-    }
-
-    fun collectSummaryVoting(): String {
+    fun collectSummaryVoting(discussion: DiscussionDto): String {
         val message = StringBuilder()
-        val listOfIdeas = ideaRepository.findAllByOrderByVotesDesc()
+        val listOfIdeas = ideaRepository.findAllByDiscussionOrderByVotesDesc(discussion)
         listOfIdeas.forEach {
             message
                 .append(
@@ -34,7 +30,7 @@ class DiscussionResultService(
         message
             .append("${discussion.title}\n")
             .append("${discussion.date}\n")
-            .append(collectSummaryVoting())
+            .append(collectSummaryVoting(discussion))
         return message.toString()
     }
 

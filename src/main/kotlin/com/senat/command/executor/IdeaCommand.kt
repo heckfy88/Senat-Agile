@@ -1,8 +1,9 @@
 package com.senat.command.executor
 
+import com.senat.command.Command
 import com.senat.repository.IdeaRepository
 import com.senat.repository.UserRepository
-import com.senat.service.idea.IdeaService
+import com.senat.service.discussion.IdeaService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Update

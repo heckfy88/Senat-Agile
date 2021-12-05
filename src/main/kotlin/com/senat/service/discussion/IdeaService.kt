@@ -1,4 +1,4 @@
-package com.senat.service.idea
+package com.senat.service.discussion
 
 import com.senat.dto.DiscussionDto
 import com.senat.dto.IdeaDto
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.objects.Update
 
 @Service
-class IdeaServiceImpl: IdeaService {
+class IdeaService {
 
     @Autowired
     lateinit var ideaRepository: IdeaRepository
@@ -30,8 +30,7 @@ class IdeaServiceImpl: IdeaService {
     @Autowired
     private lateinit var sendBotMessageService: SendBotMessageService
 
-
-    override fun sendIdea(update: Update) {
+    fun sendIdea(update: Update) {
 
         val message = update.message
 
@@ -58,14 +57,5 @@ class IdeaServiceImpl: IdeaService {
         } else {
             sendBotMessageService.sendMessage(update.message.chatId.toString(), "Предложение идей не активно")
         }
-
-
-
-
-
-
-
-
-
     }
 }
