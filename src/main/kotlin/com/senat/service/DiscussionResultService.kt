@@ -26,11 +26,12 @@ class DiscussionResultService(
 
     fun collectDiscussionResult(date: String): String {
         val message = StringBuilder()
-        val discussion = discussionRepository.findByDate(date)
-        message
-            .append("${discussion.title}\n")
-            .append("${discussion.date}\n")
-            .append(collectSummaryVoting(discussion))
+        discussionRepository.findAllByDate(date).forEach {
+            message
+                .append("${it.title}\n")
+                .append("${it.date}\n")
+                .append(collectSummaryVoting(it))
+        }
         return message.toString()
     }
 
@@ -39,8 +40,9 @@ class DiscussionResultService(
             val ideaMessage = idea.body
             val ideaSender = idea.sender.name
             val ideaVotes = idea.votes
+            val ideaResponsible = idea.responsible?.userId
 
-            return "$ideaMessage ➖ $ideaVotes \uD83D\uDD25 \nПредложил(а): $ideaSender\n"
+            return "$ideaMessage ➖ $ideaVotes \uD83D\uDD25 \nПредложил(а): $ideaSender\nОтветственный(ая): $ideaResponsible\n"
         }
     }
 }

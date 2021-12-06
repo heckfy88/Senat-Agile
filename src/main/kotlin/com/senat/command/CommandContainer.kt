@@ -27,6 +27,7 @@ class CommandContainer {
         this.add(context.getBean(InitCommand::class.java))
         this.add(context.getBean(HelpCommand::class.java))
         this.add(context.getBean(DiscussionCommand::class.java))
+        this.add(context.getBean(ResultCommand::class.java))
     }
 
     fun add(command: Command) {

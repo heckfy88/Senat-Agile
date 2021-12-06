@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DiscussionRepository: CrudRepository<DiscussionDto, Long> {
-    fun findByDate(date: String): DiscussionDto
+    fun findAllByDate(date: String): List<DiscussionDto>
     fun findFirstByChatIdOrderByIdDesc(chatId: Long): DiscussionDto
 }

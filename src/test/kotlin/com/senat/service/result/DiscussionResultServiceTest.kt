@@ -55,8 +55,8 @@ class DiscussionResultServiceTest {
 
     @Test
     fun `test should return correct discussion result`() {
-        whenever(discussionRepository.findByDate(any()))
-            .thenReturn(discussion)
+        whenever(discussionRepository.findAllByDate(any()))
+            .thenReturn(listOf(discussion))
 
         val expected = "The best discussion\n" + DateTimeFormatter
             .ofPattern("yyyy/MM/dd").format(LocalDate.now()) + "\n"

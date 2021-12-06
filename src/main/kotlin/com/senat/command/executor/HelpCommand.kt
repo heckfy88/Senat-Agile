@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update
 class HelpCommand(private var sendBotMessageService: SendBotMessageService) : Command {
 
     private val instructions =
-        "❓ Что я умею?\nпока не придумала\n\n" +
+        "❓ Что я умею?\n" +
                 "Команды:\n" +
                 "✅ /start: приветственное сообщение\n" +
                 "✅ /discussion {название дискуссии}: создай дискуссию\n" +

@@ -20,7 +20,7 @@ class ResultCommand(private val sendBotMessageService: SendBotMessageService): C
         val chatId = message.chatId
 
         if(message.text.length > 6) {
-            val date = message.text.substring(7)
+            val date = message.text.substring(8)
             val response = discussionResultService.collectDiscussionResult(date)
             sendBotMessageService.sendMessage(
                 chatId.toString(),
